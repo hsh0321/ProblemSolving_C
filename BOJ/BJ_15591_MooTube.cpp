@@ -51,13 +51,13 @@ int main() {
             int cidx = q.front();
             q.pop();
             for (int j = 0; j < map[cidx].size(); j++) {
-                int next = map[cidx][j].idx;
-                if (visit[next]) continue;
+                int nxt = map[cidx][j].idx;
+                if (visit[nxt]) continue;
                 int nv = map[cidx][j].val;
                 if (nv >= k) {
-                    visit[next] = true;
+                    visit[nxt] = true;
                     result++;
-                    q.push(next);
+                    q.push(nxt);
                 }
             }
         }
