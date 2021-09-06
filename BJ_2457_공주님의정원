@@ -1,0 +1,69 @@
+//
+//  BJ_2457_공주님의정원.cpp
+//  _Algorithm
+//
+//  Created by 황성현 on 2021/09/06.
+//
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Flower{
+public:
+    int startDay;
+    int endDay;
+};
+
+
+int calendar[12]{ 31,28,31,30,31,30,31,31,30,31,30,31 };
+int monthToDay(int month, int day){
+    int totalday = 0;
+    for (int i = 0; i < month - 1; ++i)
+        totalday += calendar[i];
+    return totalday + day;
+}
+
+int main()
+{
+    int N;
+    cin >> N;
+
+    vector<Flower> v(N);
+    for (int i = 0; i < N; ++i) {
+        int month, day;
+        cin >> month >> day;
+        v[i].startDay = monthToDay(month, day);
+        cin >> month >> day;
+        v[i].endDay = monthToDay(month, day);
+    }
+
+    sort(v.begin(), v.end(), [](Flower a, Flower b) { return a.startDay < b.startDay; });
+
+    int ans = 0;
+
+    for (int i = -1, startDay = monthToDay(3, 1), endDay = 0; i < N && startDay <= monthToDay(11, 30);) {
+        bool flag = false;
+        i++;
+
+        for (int j = i; j < N; j++) {
+            if (startDay < v[j].startDay)break;
+            if (endDay < v[j].endDay) {
+                flag = true;
+                i = j;
+                endDay = v[j].endDay;
+            }
+        }
+
+        if (flag) {
+            ans++;
+            startDay = endDay;
+        }
+        else {
+            cout << 0;
+            return 0;
+        }
+    }
+    cout << ans;
+}
